@@ -23,3 +23,6 @@ test "no lowercase":
 
 test "delimiter":
   check slugify("i  am a  string", delimiter="=") == "i=am=a=string"
+
+test "non latin replaced":
+  check slugify("Ceñía is Äußerst") == "cenia-is-ausserst"
