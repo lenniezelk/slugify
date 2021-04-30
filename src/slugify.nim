@@ -1,8 +1,15 @@
-import strutils, re, unidecode
+import strutils, unidecode
 
-proc slugify*(input: string, lowercase: bool = true, delimiter: string = "-"): string =
+func slugify*(input: string, lowercase = true, delimiter = "-"): string =
   ## Convert input string to a slug
-  var str =  input.unidecode().replace(re"\s{2,}", " ").replace(" ", delimiter)
-  if (lowercase):
-    str = str.toLower()
-  return str
+  let s = unidecode input
+  result = newStringOfCap(s.len)
+  var word = true
+  for c in s:
+    if c in Whitespace:
+      if word:
+        word = false
+        result.add delimiter
+    else:
+      word = true
+      result.add if lowercase: c.toLowerAscii else: c
